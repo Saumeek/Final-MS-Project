@@ -1,0 +1,10 @@
+new_script:
+  alias: New Script
+  sequence: []
+  icon: mdi:toggle-switch
+  mode: single
+new_script_2:
+  alias: New Script
+  sequence: []
+  icon: mdi:toggle-switch-off-outline
+  mode: single

@@ -1,0 +1,166 @@
+- id: '1686496478892'
+  alias: Lux_Sunset
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: LightSensorTopic
+    enabled: true
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.lightsensor
+    above: 1
+    below: 50
+    enabled: false
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: ActionTopic2
+      payload_template: '{"Luminance": {{ states.sensor.lightsensor.state }} }'
+    enabled: true
+  mode: single
+- id: '1690418663997'
+  alias: MotorMqttTest
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: isRotationState
+    enabled: false
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      qos: 0
+      retain: false
+      topic: isRotationState
+    enabled: false
+  mode: single
+- id: '1691135060419'
+  alias: OpenBlinds
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: LightSensorTopic
+    enabled: true
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.lightsensor
+    above: -1
+    below: 12
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.blindsstate
+    above: -1
+    below: 1
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.ledbrightness
+    above: -1
+    below: 1000
+    enabled: true
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: BlindsActionTopic
+      payload_template: '{"Luminance": {{ states.sensor.lightsensor.state }} }'
+    enabled: true
+  mode: single
+- id: '1691156570418'
+  alias: IncreaseLEDBrightness
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: LightSensorTopic
+    enabled: true
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.lightsensor
+    above: 0
+    below: 12
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.blindsstate
+    above: 0.95
+    below: 1.1
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.ledbrightness
+    above: -1
+    below: 128
+    enabled: true
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: LedActionTopic
+      payload_template: '{"Luminance": {{ states.sensor.lightsensor.state }} }'
+    enabled: true
+  mode: single
+- id: '1691166818451'
+  alias: DecreaseLEDBrightness
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: LightSensorTopic
+    enabled: true
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.lightsensor
+    above: 14
+    below: 1000
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.blindsstate
+    above: 0.95
+    below: 1.1
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.ledbrightness
+    above: -1
+    below: 129
+    enabled: true
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: LedActionTopic
+      payload_template: '{"Luminance": {{ states.sensor.lightsensor.state }} }'
+    enabled: true
+  mode: single
+- id: '1691167001372'
+  alias: CloseBlinds
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: LightSensorTopic
+    enabled: true
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.lightsensor
+    above: 14
+    below: 1000
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.blindsstate
+    above: 0
+    below: 1.1
+    enabled: true
+  - condition: numeric_state
+    entity_id: sensor.ledbrightness
+    above: -1
+    below: 15
+    enabled: true
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: BlindsActionTopic
+      payload_template: '{"Luminance": {{ states.sensor.lightsensor.state }} }'
+    enabled: true
+  mode: single

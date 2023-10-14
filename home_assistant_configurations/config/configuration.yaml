@@ -1,0 +1,62 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+  
+mqtt:
+#   cover:
+#     - name: "BlindsKitchen"
+#       command_topic: "BlindsMCU/blindsCommand"
+#       position_topic: "BlindsMCU/positionState"
+#       set_position_topic: "BlindsMCU/positionCommand"
+#       retain: true
+#       payload_open: "OPEN"
+#       payload_close: "CLOSE"
+#       payload_stop: "STOP"
+#       position_open: 0
+#       position_closed: 12  
+  
+  sensor:
+    - name: LightSensor
+      state_topic: "LightSensorTopic"
+    
+    - name: blindsState
+      state_topic: "blindStatusTopic"
+      
+    - name: ledBrightness
+      state_topic: "ledBrightnessTopic"
+      
+#   binary_sensor:
+#     - name: MotorSensor
+#       state_topic: "isRotationState"
+#       payload_on: "true"
+#       payload_off: "false"
+    
+# Example configuration.yaml entry
+# switch:
+#   - platform: rest
+#     resource: http://IP_ADDRESS/ENDPOINT
+
+# sensor: 
+#   - platform: rest 
+#     name: "ThingSpeak Brightness" 
+#     resource: "https://api.thingspeak.com/channels/2037933/fields/2/last.json" 
+#     unit_of_measurement: lux
+#     value_template: "{{ value_json.field2 }}" 
+#     scan_interval: 16  # Update interval in seconds
+    
+logger:
+  default: info
+  logs:
+    homeassistant.components.rest: debug
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
